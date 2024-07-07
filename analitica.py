@@ -124,16 +124,16 @@ y_pred = best_model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print(f'Error cuadrático medio: {mse}')
 
-# Validación cruzada para evaluar el modelo de manera más robusta
+# validación cruzada para evaluar el modelo de manera más robusta
 scores = cross_val_score(best_model, X_train, y_train, cv=5, scoring='neg_mean_squared_error', n_jobs=-1)
 mse_cv = -scores.mean()  # Error cuadrático medio promedio de la validación cruzada
 print(f'Error cuadrático medio promedio (validación cruzada): {mse_cv}')
 
-# Analizar los efectos de los descuentos en semanas festivas
+# analizar los efectos de los descuentos en semanas festivas
 holiday_weeks = merged_data_sample[merged_data_sample['IsHoliday'] == 1]['WeekOfYear'].unique()
 merged_data_sample['IsHolidayWeek'] = merged_data_sample['WeekOfYear'].isin(holiday_weeks).astype(int)
 
-# Modelo de efectos de descuentos en semanas festivas
+# modelo de efectos de descuentos en semanas festivas
 features = ['MarkDown1', 'MarkDown2', 'MarkDown3', 'MarkDown4', 'MarkDown5', 'IsHolidayWeek']
 X = merged_data_sample[features]
 y = merged_data_sample['Weekly_Sales']
